@@ -2,8 +2,28 @@
 <html {{ function('language_attributes') }}>
     {% include 'blocks/head.twig' %}
     <body {{ function('body_class') }}>
+    <div id="page" class="site">
+	<a class="skip-link sr-only sr-only-focusable" href="#content">Skip to content</a>
+
         {% include 'blocks/header.twig' %}
         <div class="wrap container" role="document">
+
+<div>
+<h3>Todo:</h3>
+        <ul>
+        <li>top drop down menu</li>
+        <li>sticky footer</li>
+        <li>jquery bootstrap.js pooper?</li>
+        <li>animate.css in-view wow</li>
+        <li>browser sync</li>
+        <li>fetured image</li>
+        <li>scrollspy gumshow</li>
+
+
+
+        </ul>
+
+        </div>
             <div class="content row">
                 <main class="main">
                     {% block content %}{% endblock %}
@@ -15,5 +35,7 @@
             {% include 'blocks/footer.twig' %}
             {{ function('wp_footer') }}
         {% endblock %}
+
+        </div>
     </body>
 </html>

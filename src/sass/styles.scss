@@ -1,0 +1,9 @@
+@import "theme/theme_variables";  // <--------- Add your variables into this file. Also add variables to overwrite Bootstrap or UnderStrap variables here
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+//Optional files - If you dont use the corresponding scripts/fonts comment em out
+
+
+// Any additional imported files //
+@import "../../node_modules/animate.css/animate.min.css";
+
+@import "theme/theme";  // <--------- That's where you can add your own design. Thats your part!
