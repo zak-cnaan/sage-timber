@@ -1,0 +1,8 @@
+{
+  "name": "sage-timber",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "zak cnaan",
+  "license": "MIT",
+  "private": true
+}
