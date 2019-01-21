@@ -103,14 +103,16 @@ function assets() {
 		$theme_version = $the_theme->get( 'Version' );
 
 		$css_version = $theme_version . '.' . filemtime( get_template_directory() . '/dist/styles/styles.min.css' );
-		wp_enqueue_style( 'zak-styles', get_stylesheet_directory_uri() . '/dist/styles/styles.min.css', array(), $css_version );
+    wp_enqueue_style( 'zak-styles', get_stylesheet_directory_uri() . '/dist/styles/styles.css', array(), $css_version );
+    
+    $js_version = $theme_version . '.' . filemtime( get_template_directory() . '/dist/scripts/main.min.js' );
+    wp_enqueue_script( 'zak-scripts', get_stylesheet_directory_uri() . '/dist/scripts/main.min.js', array(), $js_version, true );
 
 		/**wp_deregister_script('jquery');
 		wp_register_script('jquery', 'https://code.jquery.com/jquery-3.3.1.min.js', false, '3.3.1');
 		wp_enqueue_script('jquery');
 
-		$js_version = $theme_version . '.' . filemtime( get_template_directory() . '/js/theme.min.js' );
-    wp_enqueue_script( 'zak-scripts', get_template_directory_uri() . '/js/theme.min.js', array(), $js_version, true );
+
     */
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 			wp_enqueue_script( 'comment-reply' );

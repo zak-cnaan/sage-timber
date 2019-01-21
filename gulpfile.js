@@ -26,21 +26,7 @@ var paths = cfg.paths;
 // Run:
 // gulp sass
 // Compiles SCSS files in CSS
-gulp.task( 'sass', function() {
-    var stream = gulp.src( paths.sass + '/*.scss' )
-        .pipe( plumber( {
-            errorHandler: function( err ) {
-                console.log( err );
-                this.emit( 'end' );
-            }
-        } ) )
-        .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe( sass( { errLogToConsole: true } ) )
-        .pipe( autoprefixer( 'last 2 versions' ) )
-        .pipe(sourcemaps.write(undefined, { sourceRoot: null }))
-        .pipe( gulp.dest( paths.css ) )
-    return stream;
-});
+
 
 // Run:
 // gulp watch
@@ -131,35 +117,6 @@ gulp.task( 'build', ['sass', 'scripts'], function() {
 // Run:
 // gulp scripts.
 // Uglifies and concat all JS files into one
-gulp.task( 'scripts', function() {
-    var scripts = [
-
-        // Start - All BS4 stuff
-        paths.dev + '/js/bootstrap4/bootstrap.bundle.js',
-
-        // End - All BS4 stuff
-
-        paths.dev + '/js/skip-link-focus-fix.js',
-        // paths.dev + '/lib/aos/aos.js',
-        //paths.dev + '/js/scrollreveal.min.js',
-        //paths.dev + '/js/in-view.min.js',
-        paths.node + '/gumshoejs/dist/js/gumshoe.js',
-
-        paths.node + '/smooth-scroll/dist/smooth-scroll.min.js',
-        // Adding currently empty javascript file to add on for your own themes´ customizations
-        // Please add any customizations to this .js file only!
-        paths.dev + '/js/custom-javascript.js'
-    ];
-  return gulp.src( scripts )
-  .pipe(expect(scripts))
-    .pipe( concat( 'theme.min.js' ) )
-    .pipe( uglify() )
-    .pipe( gulp.dest( paths.js ) );
-
-  gulp.src( scripts )
-    .pipe( concat( 'theme.js' ) )
-    .pipe( gulp.dest( paths.js ) );
-});
 
 // Deleting any file inside the /src folder
 gulp.task( 'clean-source', function() {
@@ -248,17 +205,73 @@ gulp.task( 'clean-dist-product', function() {
 
 
 
+gulp.task( 'sass2', function() {
+    var stream = gulp.src( paths.sass + '/*.scss' )
+        .pipe( plumber( {
+            errorHandler: function( err ) {
+                console.log( err );
+                this.emit( 'end' );
+            }
+        } ) )
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe( sass( { errLogToConsole: true } ) )
+        .pipe( autoprefixer( 'last 2 versions' ) )
+        .pipe(sourcemaps.write(undefined, { sourceRoot: null }))
+        .pipe( gulp.dest( paths.css ) )
+    return stream;
+});
+gulp.task( 'scripts2', function() {
+    var scripts = [
+
+        // Start - All BS4 stuff
+        paths.dev + '/js/bootstrap4/bootstrap.bundle.js',
+
+        // End - All BS4 stuff
+
+        paths.dev + '/js/skip-link-focus-fix.js',
+        // paths.dev + '/lib/aos/aos.js',
+        //paths.dev + '/js/scrollreveal.min.js',
+        //paths.dev + '/js/in-view.min.js',
+        paths.node + '/gumshoejs/dist/js/gumshoe.js',
+
+        paths.node + '/smooth-scroll/dist/smooth-scroll.min.js',
+        // Adding currently empty javascript file to add on for your own themes´ customizations
+        // Please add any customizations to this .js file only!
+        paths.dev + '/js/custom-javascript.js'
+    ];
+  return gulp.src( scripts )
+  .pipe(expect(scripts))
+    .pipe( concat( 'theme.min.js' ) )
+    .pipe( uglify() )
+    .pipe( gulp.dest( paths.js ) );
+
+  gulp.src( scripts )
+    .pipe( concat( 'theme.js' ) )
+    .pipe( gulp.dest( paths.js ) );
+});
+
+
+
+
 
 var config = {
     paths:{
         sass:{
             src:'src/sass/',
             dest:'dist/styles/'
+        },
+        js:{
+            src:[
+                'node_modules/jquery/dist/jquery.js',
+                'node_modules/popper.js/dist/umd/popper.js',
+                'node_modules/bootstrap/dist/js/bootstrap.js'
+            ],
+            dest:'dist/scripts/'
         }
     }
 };
 
-gulp.task('default', ['styles']);
+gulp.task('default', ['scripts']);
 
 gulp.task('styles', function(){
     gulp.src([config.paths.sass.src +  '**/*.scss'])
@@ -267,12 +280,29 @@ gulp.task('styles', function(){
           console.log(error.message);
           this.emit('end');
       }}))
-      .pipe(sass())
-      .pipe(autoprefixer('last 2 versions'))
-      .pipe( sourcemaps.write( './' ) )
+      .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe( sass( { errLogToConsole: true } ) )
+        .pipe( autoprefixer( 'last 2 versions' ) )
+        .pipe(sourcemaps.write(undefined, { sourceRoot: null }))
       .pipe(gulp.dest(config.paths.sass.dest))
       .pipe(rename({suffix: '.min'}))
       .pipe(minifycss())
       .pipe(gulp.dest(config.paths.sass.dest))
+      .pipe(browserSync.reload({stream:true}))
+  });
+
+  gulp.task('scripts', function(){
+    return gulp.src(config.paths.js.src)
+    .pipe(expect(config.paths.js.src))
+      .pipe(plumber({
+        errorHandler: function (error) {
+          console.log(error.message);
+          this.emit('end');
+      }}))
+      .pipe(concat('main.js'))
+      .pipe(gulp.dest(config.paths.js.dest))
+      .pipe(rename({suffix: '.min'}))
+      .pipe(uglify())
+      .pipe(gulp.dest(config.paths.js.dest))
       .pipe(browserSync.reload({stream:true}))
   });
