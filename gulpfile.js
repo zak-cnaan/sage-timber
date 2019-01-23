@@ -31,13 +31,7 @@ var paths = cfg.paths;
 // Run:
 // gulp watch
 // Starts watcher. Watcher runs gulp sass task on changes
-gulp.task( 'watch', function() {
-    gulp.watch( paths.sass + '/**/*.scss', ['styles'] );
-    gulp.watch( [paths.dev + '/js/**/*.js', 'js/**/*.js', '!js/theme.js', '!js/theme.min.js'], ['scripts'] );
 
-    //Inside the watch task.
-    gulp.watch( paths.imgsrc + '/**', ['imagemin-watch'] );
-});
 
 /**
  * Ensures the 'imagemin' task is complete before reloading browsers
@@ -102,17 +96,11 @@ gulp.task( 'styles2', function( callback ) {
 // Run:
 // gulp browser-sync
 // Starts browser-sync task for starting the server.
-gulp.task( 'browser-sync', function() {
+gulp.task( 'browser-sync2', function() {
     browserSync.init( cfg.browserSyncWatchFiles, cfg.browserSyncOptions );
 } );
 
-// Run:
-// gulp watch-bs
-// Starts watcher with browser-sync. Browser-sync reloads page automatically on your browser
-gulp.task( 'watch-bs', ['browser-sync', 'watch', 'scripts'], function() {
-} );
-gulp.task( 'build', ['sass', 'scripts'], function() {
-} );
+
 
 // Run:
 // gulp scripts.
@@ -127,47 +115,6 @@ gulp.task( 'clean-source', function() {
 // gulp copy-assets.
 // Copy all needed dependency assets files from bower_component assets to themes /js, /scss and /fonts folder. Run this task after bower install or bower update
 
-////////////////// All Bootstrap SASS  Assets /////////////////////////
-gulp.task( 'copy-assets', function() {
-
-////////////////// All Bootstrap 4 Assets /////////////////////////
-// Copy all JS files
-    var stream = gulp.src( paths.node + 'bootstrap/dist/js/**/*.js' )
-        .pipe( gulp.dest( paths.dev + '/js/bootstrap4' ) );
-
-// Copy all Bootstrap SCSS files
-    gulp.src( paths.node + 'bootstrap/scss/**/*.scss' )
-        .pipe( gulp.dest( paths.dev + '/sass/bootstrap4' ) );
-
-////////////////// End Bootstrap 4 Assets /////////////////////////
-
-// Copy all Font Awesome Fonts
-    gulp.src( paths.node + 'font-awesome/fonts/**/*.{ttf,woff,woff2,eot,svg}' )
-        .pipe( gulp.dest( './fonts' ) );
-
-// Copy all Font Awesome SCSS files
-    gulp.src( paths.node + 'font-awesome/scss/*.scss' )
-        .pipe( gulp.dest( paths.dev + '/sass/fontawesome' ) );
-
-// _s SCSS files
-    gulp.src( paths.node + 'undescores-for-npm/sass/media/*.scss' )
-        .pipe( gulp.dest( paths.dev + '/sass/underscores' ) );
-
-// _s JS files into /src/js
-    gulp.src( paths.node + 'undescores-for-npm/js/skip-link-focus-fix.js' )
-        .pipe( gulp.dest( paths.dev + '/js' ) );
-
-      
-    // gulp.src( paths.node + 'aos/dist/*.*' )
-    // .pipe( gulp.dest( paths.dev + '/lib/aos' ) );
-
-     gulp.src( paths.node + 'animate.css/animate.min.css' )
-     .pipe( gulp.dest( paths.dev + '/lib/animate.css/' ) );
-
-
-    // gulp.src( paths.node + 'in-view/dist/in-view.min.js' )
-    // .pipe( gulp.dest( paths.dev + '/js' ) );
-});
 
 // Deleting the files distributed by the copy-assets task
 gulp.task( 'clean-vendor-assets', function() {
@@ -271,7 +218,7 @@ var config = {
     }
 };
 
-gulp.task('default', ['scripts']);
+//gulp.task('default', ['scripts']);
 
 gulp.task('styles', function(){
     gulp.src([config.paths.sass.src +  '**/*.scss'])
@@ -306,3 +253,45 @@ gulp.task('styles', function(){
       .pipe(gulp.dest(config.paths.js.dest))
       .pipe(browserSync.reload({stream:true}))
   });
+
+  gulp.task( 'build', ['styles', 'scripts'], function() {} );
+
+  gulp.task( 'watch', ['build'], function() {
+    gulp.watch( [config.paths.sass.src +  '**/*.scss'], ['styles'] );
+    //gulp.watch( [paths.dev + '/js/**/*.js', 'js/**/*.js', '!js/theme.js', '!js/theme.min.js'], ['scripts'] );
+
+    //Inside the watch task.
+    //gulp.watch( paths.imgsrc + '/**', ['imagemin-watch'] );
+});
+  gulp.task('browser-sync', function() {
+    // browserSync.init({
+    //     server: "./"
+    // });
+    browserSync.init( 
+        {
+            "proxy": "zakcnaan.local/",
+            "notify": false
+        }
+     );
+    // browserSync({
+    //   server: {
+    //      baseDir: "./"
+    //   }
+    // });
+  });
+  
+//   gulp.task('bs-reload', function () {
+//     browserSync.reload();
+//   });
+
+gulp.task('sync', ['browser-sync'], function(){
+    gulp.watch([config.paths.sass.src +  '**/*.scss'], ['styles']);
+    //gulp.watch("src/scripts/**/*.js", ['scripts']);
+    //gulp.watch("*.html", ['bs-reload']);
+  });
+
+  // Run:
+// gulp watch-bs
+// Starts watcher with browser-sync. Browser-sync reloads page automatically on your browser
+// gulp.task( 'watch-bs', ['browser-sync', 'watch', 'scripts'], function() {
+// } );
