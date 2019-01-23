@@ -96,106 +96,8 @@ gulp.task( 'styles2', function( callback ) {
 // Run:
 // gulp browser-sync
 // Starts browser-sync task for starting the server.
-gulp.task( 'browser-sync2', function() {
-    browserSync.init( cfg.browserSyncWatchFiles, cfg.browserSyncOptions );
-} );
 
 
-
-// Run:
-// gulp scripts.
-// Uglifies and concat all JS files into one
-
-// Deleting any file inside the /src folder
-gulp.task( 'clean-source', function() {
-  return del( ['src/**/*'] );
-});
-
-// Run:
-// gulp copy-assets.
-// Copy all needed dependency assets files from bower_component assets to themes /js, /scss and /fonts folder. Run this task after bower install or bower update
-
-
-// Deleting the files distributed by the copy-assets task
-gulp.task( 'clean-vendor-assets', function() {
-  return del( [paths.dev + '/js/bootstrap4/**', paths.dev + '/sass/bootstrap4/**', './fonts/*wesome*.{ttf,woff,woff2,eot,svg}', paths.dev + '/sass/fontawesome/**', paths.dev + '/sass/underscores/**', paths.dev + '/js/skip-link-focus-fix.js', paths.js + '/**/skip-link-focus-fix.js', paths.js + '/**/popper.min.js', paths.js + '/**/popper.js', ( paths.vendor !== ''?( paths.js + paths.vendor + '/**' ):'' )] );
-});
-
-// Run
-// gulp dist
-// Copies the files to the /dist folder for distribution as simple theme
-gulp.task( 'dist', ['clean-dist'], function() {
-  return gulp.src( ['**/*', '!' + paths.bower, '!' + paths.bower + '/**', '!' + paths.node, '!' + paths.node + '/**', '!' + paths.dev, '!' + paths.dev + '/**', '!' + paths.dist, '!' + paths.dist + '/**', '!' + paths.distprod, '!' + paths.distprod + '/**', '!' + paths.sass, '!' + paths.sass + '/**', '!readme.txt', '!readme.md', '!package.json', '!package-lock.json', '!gulpfile.js', '!gulpconfig.json', '!CHANGELOG.md', '!.travis.yml', '!jshintignore',  '!codesniffer.ruleset.xml',  '*'], { 'buffer': true } )
-  .pipe( replace( '/js/jquery.slim.min.js', '/js' + paths.vendor + '/jquery.slim.min.js', { 'skipBinary': true } ) )
-  .pipe( replace( '/js/popper.min.js', '/js' + paths.vendor + '/popper.min.js', { 'skipBinary': true } ) )
-  .pipe( replace( '/js/skip-link-focus-fix.js', '/js' + paths.vendor + '/skip-link-focus-fix.js', { 'skipBinary': true } ) )
-    .pipe( gulp.dest( paths.dist ) );
-});
-
-// Deleting any file inside the /dist folder
-gulp.task( 'clean-dist', function() {
-  return del( [paths.dist + '/**'] );
-});
-
-// Run
-// gulp dist-product
-// Copies the files to the /dist-prod folder for distribution as theme with all assets
-gulp.task( 'dist-product', ['clean-dist-product'], function() {
-  return gulp.src( ['**/*', '!' + paths.bower, '!' + paths.bower + '/**', '!' + paths.node, '!' + paths.node + '/**', '!' + paths.dist, '!' + paths.dist +'/**', '!' + paths.distprod, '!' + paths.distprod + '/**', '*'] )
-    .pipe( gulp.dest( paths.distprod ) );
-} );
-
-// Deleting any file inside the /dist-product folder
-gulp.task( 'clean-dist-product', function() {
-  return del( [paths.distprod + '/**'] );
-} );
-
-
-
-gulp.task( 'sass2', function() {
-    var stream = gulp.src( paths.sass + '/*.scss' )
-        .pipe( plumber( {
-            errorHandler: function( err ) {
-                console.log( err );
-                this.emit( 'end' );
-            }
-        } ) )
-        .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe( sass( { errLogToConsole: true } ) )
-        .pipe( autoprefixer( 'last 2 versions' ) )
-        .pipe(sourcemaps.write(undefined, { sourceRoot: null }))
-        .pipe( gulp.dest( paths.css ) )
-    return stream;
-});
-gulp.task( 'scripts2', function() {
-    var scripts = [
-
-        // Start - All BS4 stuff
-        paths.dev + '/js/bootstrap4/bootstrap.bundle.js',
-
-        // End - All BS4 stuff
-
-        paths.dev + '/js/skip-link-focus-fix.js',
-        // paths.dev + '/lib/aos/aos.js',
-        //paths.dev + '/js/scrollreveal.min.js',
-        //paths.dev + '/js/in-view.min.js',
-        paths.node + '/gumshoejs/dist/js/gumshoe.js',
-
-        paths.node + '/smooth-scroll/dist/smooth-scroll.min.js',
-        // Adding currently empty javascript file to add on for your own themes´ customizations
-        // Please add any customizations to this .js file only!
-        paths.dev + '/js/custom-javascript.js'
-    ];
-  return gulp.src( scripts )
-  .pipe(expect(scripts))
-    .pipe( concat( 'theme.min.js' ) )
-    .pipe( uglify() )
-    .pipe( gulp.dest( paths.js ) );
-
-  gulp.src( scripts )
-    .pipe( concat( 'theme.js' ) )
-    .pipe( gulp.dest( paths.js ) );
-});
 
 
 
@@ -218,10 +120,29 @@ var config = {
     }
 };
 
+var files = {
+    css: {
+        build: [config.paths.sass.src +  '**/*.scss'],
+        watch: [config.paths.sass.src +  '**/*.scss'],
+        //sync: [config.paths.sass.src +  '**/*.scss']
+
+    },
+    js: {
+        build: config.paths.js.src,
+        // watch: "",
+        // sync: "not in use"
+    }
+}
 //gulp.task('default', ['scripts']);
 
+gulp.task( 'xxx', function() {
+    browserSync.init({
+            proxy: "zakcnaan.local/"
+    });
+});
+
 gulp.task('styles', function(){
-    gulp.src([config.paths.sass.src +  '**/*.scss'])
+    gulp.src( files.css.build)
       .pipe(plumber({
         errorHandler: function (error) {
           console.log(error.message);
@@ -235,12 +156,12 @@ gulp.task('styles', function(){
       .pipe(rename({suffix: '.min'}))
       .pipe(minifycss())
       .pipe(gulp.dest(config.paths.sass.dest))
-      .pipe(browserSync.reload({stream:true}))
+      //.pipe(browserSync.reload({stream:true}))
   });
 
   gulp.task('scripts', function(){
-    return gulp.src(config.paths.js.src)
-    .pipe(expect(config.paths.js.src))
+    return gulp.src(files.js.build)
+    .pipe(expect(files.js.build))
       .pipe(plumber({
         errorHandler: function (error) {
           console.log(error.message);
@@ -251,18 +172,27 @@ gulp.task('styles', function(){
       .pipe(rename({suffix: '.min'}))
       .pipe(uglify())
       .pipe(gulp.dest(config.paths.js.dest))
-      .pipe(browserSync.reload({stream:true}))
+      //.pipe(browserSync.reload({stream:true}))
   });
 
   gulp.task( 'build', ['styles', 'scripts'], function() {} );
 
   gulp.task( 'watch', ['build'], function() {
-    gulp.watch( [config.paths.sass.src +  '**/*.scss'], ['styles'] );
+    gulp.watch( files.css.watch , ['styles'] );
     //gulp.watch( [paths.dev + '/js/**/*.js', 'js/**/*.js', '!js/theme.js', '!js/theme.min.js'], ['scripts'] );
 
     //Inside the watch task.
     //gulp.watch( paths.imgsrc + '/**', ['imagemin-watch'] );
 });
+
+gulp.task( 'x5', function() {
+    browserSync.init( ['./dist/**/*.*'], cfg.browserSyncOptions );
+});
+
+gulp.task( 'x7', ['x5', 'watch'], function() {
+    //browserSync.init( ['./dist/**/*.*'], cfg.browserSyncOptions );
+});
+
   gulp.task('browser-sync', function() {
     // browserSync.init({
     //     server: "./"
@@ -284,7 +214,7 @@ gulp.task('styles', function(){
 //     browserSync.reload();
 //   });
 
-gulp.task('sync', ['browser-sync'], function(){
+gulp.task('sync2', ['browser-sync'], function(){
     gulp.watch([config.paths.sass.src +  '**/*.scss'], ['styles']);
     //gulp.watch("src/scripts/**/*.js", ['scripts']);
     //gulp.watch("*.html", ['bs-reload']);
@@ -293,5 +223,5 @@ gulp.task('sync', ['browser-sync'], function(){
   // Run:
 // gulp watch-bs
 // Starts watcher with browser-sync. Browser-sync reloads page automatically on your browser
-// gulp.task( 'watch-bs', ['browser-sync', 'watch', 'scripts'], function() {
-// } );
+gulp.task( 'yyy', ['xxx', 'watch'], function() {
+} );
