@@ -2,6 +2,17 @@
 
 body{
     position: relative;
+    &.rtl{
+        text-align: right;
+        direction: rtl;
+        .navbar-nav{
+            padding-right:0; 
+        }
+        .navbar-brand {
+            margin-right: 0;
+            margin-left: 1rem;
+        }
+    }
 }
 #page{
     display: flex;
@@ -10,6 +21,7 @@ body{
     min-height: 100vh;
     #content{
         flex:1;
+        padding: 1.5rem 0;
     }
    
 }

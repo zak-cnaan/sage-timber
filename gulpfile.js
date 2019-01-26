@@ -133,13 +133,10 @@ var files = {
         // sync: "not in use"
     }
 }
-//gulp.task('default', ['scripts']);
 
-gulp.task( 'xxx', function() {
-    browserSync.init({
-            proxy: "zakcnaan.local/"
-    });
-});
+gulp.task('default', ['sync']);
+
+
 
 gulp.task('styles', function(){
     gulp.src( files.css.build)
@@ -185,43 +182,14 @@ gulp.task('styles', function(){
     //gulp.watch( paths.imgsrc + '/**', ['imagemin-watch'] );
 });
 
-gulp.task( 'x5', function() {
+gulp.task( 'browser-sync', function() {
     browserSync.init( ['./dist/**/*.*'], cfg.browserSyncOptions );
 });
 
-gulp.task( 'x7', ['x5', 'watch'], function() {
-    //browserSync.init( ['./dist/**/*.*'], cfg.browserSyncOptions );
-});
+gulp.task( 'sync', ['browser-sync', 'watch'], function() {});
 
-  gulp.task('browser-sync', function() {
-    // browserSync.init({
-    //     server: "./"
-    // });
-    browserSync.init( 
-        {
-            "proxy": "zakcnaan.local/",
-            "notify": false
-        }
-     );
-    // browserSync({
-    //   server: {
-    //      baseDir: "./"
-    //   }
-    // });
-  });
-  
 //   gulp.task('bs-reload', function () {
 //     browserSync.reload();
 //   });
 
-gulp.task('sync2', ['browser-sync'], function(){
-    gulp.watch([config.paths.sass.src +  '**/*.scss'], ['styles']);
-    //gulp.watch("src/scripts/**/*.js", ['scripts']);
-    //gulp.watch("*.html", ['bs-reload']);
-  });
 
-  // Run:
-// gulp watch-bs
-// Starts watcher with browser-sync. Browser-sync reloads page automatically on your browser
-gulp.task( 'yyy', ['xxx', 'watch'], function() {
-} );
