@@ -1,3 +1,8 @@
 <div class="page-header">
     <h1>{{ title ?: post.title }}</h1>
+    {%if post.thumbnail %}
+                <figure class='post-thumbnail'>
+                    <img src="{{ post.thumbnail.src }}" alt='{{ post.thumbnail.alt }}'/>
+                </figure>
+            {% endif %}
 </div>

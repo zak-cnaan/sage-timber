@@ -121,16 +121,17 @@ add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
 
 function my_search_form( $form ) {
+  $langUrl = pll_current_language() == pll_default_language() ? "":pll_current_language();
   $form = '
   <div class="">
             <h5 class="card-header">Search</h5>
             <div class="card-body">
-            <form role="search" method="get" id="searchform" class="searchform" action="' . home_url( '/' ) . '" >
+            <form role="search" method="get" id="searchform" class="searchform" action="' . home_url( '/' ) . $langUrl . '/" >
               <div class="input-group">
               <label class="sr-only" for="s">' . __( 'Search for:' ) . '</label>
                 <input type="text" class="form-control" placeholder="' . __( 'Search for:' ) . '" value="' . get_search_query() . '" name="s" id="s">
                 <span class="input-group-append">
-                  <button id="searchsubmit" class="btn btn-secondary" type="button">'. esc_attr__( 'Search' ) .'</button>
+                  <button id="searchsubmit" class="btn btn-secondary" type="submit">'. esc_attr__( 'Search' ) .'</button>
                 </span>
               </div>
               </form>

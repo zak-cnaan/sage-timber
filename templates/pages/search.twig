@@ -6,7 +6,6 @@
 
     {% if posts == [] %}
         {{ __('Sorry, no results were found.', 'sage') }}
-        {{ function('get_search_form') }}
     {% endif %}
 
     {% for post in posts %}
