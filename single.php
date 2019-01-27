@@ -8,5 +8,7 @@
  */
 
 $context = Timber::get_context();
+$context['zak'] = 'zak cnaan';
+$context['post'] = new TimberPost();
 
 Timber::render('pages/single.twig', $context);

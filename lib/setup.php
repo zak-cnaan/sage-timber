@@ -57,20 +57,19 @@ function widgets_init() {
   register_sidebar([
     'name'          => __('Primary', 'sage'),
     'id'            => 'sidebar-primary',
-    'before_widget' => '<section class="widget %1$s %2$s">',
+    'before_widget' => '<section class="card widget %1$s %2$s">',
     'after_widget'  => '</section>',
-    'before_title'  => '<h3>',
-    'after_title'   => '</h3>'
+    'before_title'  => '<h5 class="card-header">',
+    'after_title'   => '</h5>'
   ]);
-
-  register_sidebar([
-    'name'          => __('Footer', 'sage'),
-    'id'            => 'sidebar-footer',
-    'before_widget' => '<section class="widget %1$s %2$s">',
-    'after_widget'  => '</section>',
-    'before_title'  => '<h3>',
-    'after_title'   => '</h3>'
-  ]);
+  // register_sidebar([
+  //   'name'          => __('Footer', 'sage'),
+  //   'id'            => 'sidebar-footer',
+  //   'before_widget' => '<section class="widget %1$s %2$s">',
+  //   'after_widget'  => '</section>',
+  //   'before_title'  => '<h3>',
+  //   'after_title'   => '</h3>'
+  // ]);
 }
 add_action('widgets_init', __NAMESPACE__ . '\\widgets_init');
 
@@ -119,3 +118,30 @@ function assets() {
 		}
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
+
+
+function my_search_form( $form ) {
+  $form = '
+  <div class="">
+            <h5 class="card-header">Search</h5>
+            <div class="card-body">
+            <form role="search" method="get" id="searchform" class="searchform" action="' . home_url( '/' ) . '" >
+              <div class="input-group">
+              <label class="sr-only" for="s">' . __( 'Search for:' ) . '</label>
+                <input type="text" class="form-control" placeholder="' . __( 'Search for:' ) . '" value="' . get_search_query() . '" name="s" id="s">
+                <span class="input-group-append">
+                  <button id="searchsubmit" class="btn btn-secondary" type="button">'. esc_attr__( 'Search' ) .'</button>
+                </span>
+              </div>
+              </form>
+            </div>
+          </div>
+
+  
+  <div>
+  ';
+
+  return $form;
+}
+
+add_filter( 'get_search_form', __NAMESPACE__ . '\\my_search_form', 100 );

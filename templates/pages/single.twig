@@ -1,20 +1,33 @@
 {% extends "base.twig" %}
-
 {% block content %}
-    {% for post in posts %}
-        <article {{ function('post_class') }}>
-            <header>
-                <h1 class="entry-title">{{ post.title }}</h1>
-                {% include "blocks/entry-meta.twig" %}
-            </header>
-            <div class="entry-content">
-                {{ post.content }}
-            </div>
-            <footer>
-                {{ wp_link_pages }}
-                {% include "blocks/comment.twig" %}
-                {% include "blocks/comment-form.twig" %}
-            </footer>
-        </article>
-    {% endfor %}
+    <article {{ function('post_class') }}>
+        <header>
+            <h1 class="entry-title">
+                {{ post.title }}</h1>
+            {% include "blocks/entry-meta.twig" %}
+            {%if post.thumbnail %}
+                <figure class='post-thumbnail'>
+                    <img src="{{ post.thumbnail.src }}" alt='{{ post.thumbnail.alt }}'/>
+                </figure>
+            {% endif %}
+        </header>
+        <div class="entry-content">
+            {{ post.content }}
+        </div>
+        <footer>
+            {{ wp_link_pages }}
+            {% include "blocks/comment-form.twig" %}
+            
+            {% if post.comments|length > 0 %}
+                <h3>
+                    {{ __('replies', 'sage') }}</h3>
+                {% for comment in post.comments %}
+                    <div class="comment-{{comment.ID}} comment-order-{{loop.index}}">
+                        {% include "blocks/comment.twig" with {comment:comment} %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+        </footer>
+    </article>
 {% endblock %}

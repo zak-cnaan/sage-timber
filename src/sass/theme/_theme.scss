@@ -12,6 +12,17 @@ body{
             margin-right: 0;
             margin-left: 1rem;
         }
+        .input-group-append {
+            margin-right: -1px;
+            margin-left: 0px;
+        }
+        .input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+            border-top-left-radius: $border-radius;
+            border-bottom-left-radius: $border-radius;
+
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
     }
 }
 #page{
@@ -34,11 +45,23 @@ body{
 #Footer{
     background-color: $secondary;
 }
-
+figure,
 img{
     max-width:100%;
     height: auto;
 }
+
+.sidebar{
+    .widget{
+        margin-bottom: 2rem;
+    }
+    ul{
+        @extend .list-unstyled;
+        //padding:0; //rtl
+        @extend .card-body;
+    }
+}
+
 section.fp{
     min-height: calc(100vh - 60px);
 } 

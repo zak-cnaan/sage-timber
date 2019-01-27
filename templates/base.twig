@@ -10,10 +10,13 @@
 
 
             <div class="content row">
-                <main class="main col-md-8">
-                    {% block content %}vsdfsdf{% endblock %}
+                <main class='main  {{display_sidebar > 0 ? "col-md-8":"col-md-12"}}'>
+                    {% block content %}contents goes here{% endblock %}
                 </main>
+				{% if display_sidebar %}
                 {% include 'blocks/sidebar.twig' %}
+{% endif %}
+
             </div>
         </div>
         {% block footer %}
