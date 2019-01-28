@@ -1,4 +1,13 @@
 // This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
+html{
+    font-size: 18px;
+}
+th,
+b,
+strong {
+  font-weight: $font-weight-bold; // Add the correct font weight in Chrome, Edge, and Safari
+}
+
 .business-header h1,
 #Footer{
     direction:ltr;
@@ -36,7 +45,8 @@ body{
     min-height: 100vh;
     #content{
         flex:1;
-        padding: 1.5rem 0;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
     }
    
 }
@@ -48,6 +58,7 @@ body{
 }
 #Footer{
     background-color: $secondary;
+    padding: 0.5rem 0;
     
 }
 figure,
