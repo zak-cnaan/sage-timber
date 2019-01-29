@@ -9,23 +9,23 @@
 // @import "custom-vars/cosmo/variables";
 // @import "custom-vars/cyborg/variables";
  //@import "custom-vars/darkly/variables";
-// @import "custom-vars/flatly/variables";
+//@import "custom-vars/flatly/variables";
 // @import "custom-vars/journal/variables";
-// @import "custom-vars/litera/variables";
-//@import "custom-vars/lumen/variables";
+//3 @import "custom-vars/litera/variables";
+//3@import "custom-vars/lumen/variables";
 // @import "custom-vars/lux/variables";
-// @import "custom-vars/materia/variables";
+//3 @import "custom-vars/materia/variables";
 //@import "custom-vars/minty/variables";
  //@import "custom-vars/pulse/variables";
-// @import "custom-vars/sandstone/variables";
-// @import "custom-vars/simplex/variables";
+//3 @import "custom-vars/sandstone/variables";
+//@import "custom-vars/simplex/variables";
 // @import "custom-vars/sketchy/variables";
 // @import "custom-vars/slate/variables";
 // @import "custom-vars/solar/variables";
- //@import "custom-vars/spacelab/variables";
+//@import "custom-vars/spacelab/variables";
 // @import "custom-vars/superhero/variables";
-@import "custom-vars/united/variables";
-//@import "custom-vars/yeti/variables";
+//@import "custom-vars/united/variables";
+@import "custom-vars/yeti/variables";
 
 // Fonts
 //
@@ -47,12 +47,52 @@
 // $font-weight-bolder:          bolder !default;
 
 $font-weight-light: 300;
-$font-weight-base:            $font-weight-light;
+$font-weight-base: $font-weight-light;
 
 $font-weight-bold: 500;
 $font-weight-bolder: 700;
 $headings-font-weight: $font-weight-light;
 $line-height-base: 1.75;  
 
+// $Herbie: "";
+// $primary:#083358;
+// $secondary:#F67280;
+// $success:#0074E4;
+// $danger:#FF4057;
+// $info:#74DBEF;
+// $warning:#FC3C3C;
+// $light:#F2F2F0;
+// $dark:#072247;
 
 
+// $Signal: "";
+// $primary:#FF304F;
+// $secondary:#CACACA;
+// $success:#015668;
+// $danger:#06648C;
+// $info:#0F81C7;
+// $warning:#0DE2EA;
+// $light:#ececec;
+// $dark:#222222;
+
+// $Fresca: "";
+// $primary:#07689F;
+// $secondary:#C9D6DF;
+// $success:#11D3BC;
+// $danger:#F67280;
+// $info:#A2D5F2;
+// $warning:#FF7E67;
+// $light:#FAFAFA;
+// $dark:#4e4e4e;
+
+// $primary: #235789;
+// $danger: #ED1C24;
+// $warning: #F1D302;
+// $success: #20BF55;
+// $info: #01BAEF;
+
+// $secondary:#E8F1F2;
+// $light: #FDFFFC;
+// $dark: #0A2342;
+
+// $link-color:$success;
